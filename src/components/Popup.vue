@@ -2,7 +2,7 @@
   <div class="popup-wrapper" :class="{ 'popup-wrapper_active': active }">
     <div class="popup">
       <button @click="$emit('popup-close')" class="popup__close-btn">
-        <span class="material-icons">close</span>
+        <i class="bi bi-type-bold bi-x-lg"></i>
       </button>
       <h2 class="popup__title">Налоговый вычет</h2>
       <p class="popup__info">
@@ -20,6 +20,15 @@
         <p class="popup__text-btn">
           <a href="#">Рассчитать</a>
         </p>
+        <div class="popup__calculated">
+          <p class="popup__bold-text">
+            Итого можете внести в качестве досрочных:
+          </p>
+          <CalculatedItem :key="1" :id="1" />
+          <CalculatedItem :key="2" :id="2" />
+          <CalculatedItem :key="3" :id="3" />
+          <CalculatedItem :key="4" :id="4" />
+        </div>
       </div>
       <div class="popup__sort">
         <p class="popup__sort-title">Что уменьшаем?</p>
@@ -39,6 +48,7 @@
 import Input from "@/components/Input.vue";
 import Tag from "@/components/Tag.vue";
 import AddButton from "@/components/AddButton.vue";
+import CalculatedItem from "@/components/CalculatedItem.vue";
 
 export default {
   props: {
@@ -48,6 +58,7 @@ export default {
     Input,
     Tag,
     AddButton,
+    CalculatedItem,
   },
   data: () => ({
     input: {
@@ -61,36 +72,38 @@ export default {
 <style lang="scss" scoped>
 .popup-wrapper {
   width: 100%;
-  height: 100vh;
+  height: 100%;
 
   position: absolute;
   top: 0;
   left: 0;
 
   display: none;
-  justify-content: center;
-  align-items: center;
 
   opacity: 1;
 
   background: #B3B3B3;
 
   &_active {
-    display: flex;
-    animation: 1s popup-wrapper 1;
+    display: block;
+    animation: 1s popup-wrapper_active 1;
   }
 }
 
 .popup {
-  width: 500px;
+  width: 100%;
+  max-width: 500px;
 
   position: relative;
 
+  margin: 120px auto 0 auto;
   padding: 2.5em;
 
   border-radius: 30px;
 
   background: #fff;
+
+  transition: 0.3s linear;
 
   &__close-btn {
     width: 18px;
@@ -99,6 +112,9 @@ export default {
     position: absolute;
     top: 0;
     right: 0;
+
+    font-size: 1.2em;
+    font-weight: bold;
 
     margin-top: 2em;
     margin-right: 2em;
@@ -113,11 +129,13 @@ export default {
     border: none;
     outline: none;
 
+    background: url("/assets/css/icons/exit.svg") no-repeat top/cover;
+
     cursor: pointer;
   }
 
   &__title {
-    font-size: 28px;
+    font-size: 2em;
     font-weight: 500;
   }
 
@@ -133,6 +151,10 @@ export default {
 
   &__calculation {
     margin-top: 1.8em;
+  }
+
+  &__calculated {
+    margin-top: 16px;
   }
 
   &__text-btn {
@@ -169,12 +191,24 @@ export default {
   }
 }
 
-@keyframes popup-wrapper {
+@keyframes popup-wrapper_active {
   0% {
     opacity: 0;
   }
   100% {
     opacity: 1;
+  }
+}
+
+@media screen and (max-width: 500px) {
+  .popup {
+    margin: 0;
+
+    border-radius: 0;
+
+    &__title {
+      font-size: 1.5em;
+    }
   }
 }
 </style>
