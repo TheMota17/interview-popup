@@ -1,7 +1,7 @@
 <template>
   <main>
     <FirstButton text="Досрочный платеж" />
-    <popup />
+    <popup :active="popup.active" />
   </main>
 </template>
 
@@ -10,6 +10,11 @@ import FirstButton from "@/components/FirstButton.vue";
 import Popup from "@/components/Popup.vue";
 
 export default {
+  data: () => ({
+    popup: {
+      active: true,
+    }
+  }),
   components: {
     FirstButton,
     Popup,
