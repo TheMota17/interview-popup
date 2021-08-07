@@ -1,7 +1,10 @@
 <template>
   <main>
-    <FirstButton text="Досрочный платеж" />
-    <popup :active="popup.active" />
+    <FirstButton
+      @click="popup.active = !popup.active"
+      text="Досрочный платеж"
+    />
+    <popup @popup-close="popup.active = !popup.active" :active="popup.active" />
   </main>
 </template>
 
@@ -13,7 +16,7 @@ export default {
   data: () => ({
     popup: {
       active: true,
-    }
+    },
   }),
   components: {
     FirstButton,

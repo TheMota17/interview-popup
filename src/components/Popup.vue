@@ -1,7 +1,7 @@
 <template>
-  <div class="popup-wrapper">
+  <div class="popup-wrapper" :class="{ 'popup-wrapper_active': active }">
     <div class="popup">
-      <button class="popup__close-btn">
+      <button @click="$emit('popup-close')" class="popup__close-btn">
         <span class="material-icons">close</span>
       </button>
       <h2 class="popup__title">Налоговый вычет</h2>
@@ -17,16 +17,28 @@
           placeholder-text="Введите данные"
           error-text="Поле обязательно для заполнения"
         />
-        <p class="popup__text-btn" @click="input.invalid = !input.invalid">
+        <p class="popup__text-btn">
           <a href="#">Рассчитать</a>
         </p>
       </div>
+      <div class="popup__sort">
+        <p class="popup__sort-title">Что уменьшаем?</p>
+        <Tag
+          @click="sortBy = 'payment'"
+          :active="sortBy === 'payment'"
+          text="Платеж"
+        />
+        <Tag @click="sortBy = 'term'" :active="sortBy === 'term'" text="Срок" />
+      </div>
+      <AddButton text="Добавить" />
     </div>
   </div>
 </template>
 
 <script>
 import Input from "@/components/Input.vue";
+import Tag from "@/components/Tag.vue";
+import AddButton from "@/components/AddButton.vue";
 
 export default {
   props: {
@@ -34,11 +46,14 @@ export default {
   },
   components: {
     Input,
+    Tag,
+    AddButton,
   },
   data: () => ({
     input: {
       invalid: false,
     },
+    sortBy: "payment", // or "term"
   }),
 };
 </script>
@@ -52,11 +67,18 @@ export default {
   top: 0;
   left: 0;
 
-  display: flex;
+  display: none;
   justify-content: center;
   align-items: center;
 
+  opacity: 1;
+
   background: #B3B3B3;
+
+  &_active {
+    display: flex;
+    animation: 1s popup-wrapper 1;
+  }
 }
 
 .popup {
@@ -90,6 +112,8 @@ export default {
 
     border: none;
     outline: none;
+
+    cursor: pointer;
   }
 
   &__title {
@@ -104,7 +128,7 @@ export default {
   }
 
   &__bold-text {
-    font-weight: 590;
+    font-weight: 500;
   }
 
   &__calculation {
@@ -130,6 +154,27 @@ export default {
         color: #EA0029;
       }
     }
+  }
+
+  &__sort {
+    display: flex;
+    align-items: center;
+
+    margin-top: 30px;
+  }
+
+  &__sort-title {
+    margin-right: 3em;
+    font-weight: 500;
+  }
+}
+
+@keyframes popup-wrapper {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
   }
 }
 </style>

@@ -26,7 +26,7 @@ export default {
 
   transition: 0.3s linear;
 
-  &:hover {
+  &:hover:enabled {
     cursor: pointer;
 
     color: #FF5E56;
