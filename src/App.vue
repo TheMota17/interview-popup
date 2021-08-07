@@ -33,7 +33,5 @@ main {
   display: flex;
   justify-content: center;
   align-items: center;
-
-  background: linear-gradient(to right, #FF4F4F, #DC3131);
 }
 </style>
