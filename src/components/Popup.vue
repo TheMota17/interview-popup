@@ -47,7 +47,9 @@
           />
         </div>
       </div>
-      <AddButton text="Добавить" />
+      <div class="add-button-wrapper">
+        <AddButton text="Добавить" />
+      </div>
     </div>
   </div>
 </template>
@@ -104,14 +106,16 @@ export default {
 
 <style lang="scss" scoped>
 .popup-wrapper {
-  width: 100%;
-  min-height: 100%;
+  display: none;
 
-  position: absolute;
+  width: 100%;
+  height: 100%;
+
+  position: fixed;
   top: 0;
   left: 0;
 
-  display: none;
+  overflow-y: auto;
 
   opacity: 1;
 
@@ -119,6 +123,7 @@ export default {
 
   &_active {
     display: block;
+
     animation: 1s popup-wrapper_active 1;
   }
 }
@@ -223,9 +228,11 @@ export default {
 
 @media screen and (max-width: 500px) {
   .popup {
-    height: 100vmax;
+    display: flex;
+    flex-direction: column;
 
     margin: 0;
+    min-height: 100%;
 
     border-radius: 0;
 
@@ -242,6 +249,13 @@ export default {
     &__sort-tags {
       margin-top: 30px;
     }
+  }
+
+  .add-button-wrapper {
+    flex: 1;
+
+    display: flex;
+    align-items: flex-end;
   }
 }
 </style>
