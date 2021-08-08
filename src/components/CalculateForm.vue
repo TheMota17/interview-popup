@@ -2,7 +2,7 @@
   <form class="calculate-form">
     <input
       class="calculate-input"
-      :class="{ 'calculate-input_invalid': inputInvalid }"
+      :class="{ 'calculate-input_invalid': moneyInputInvalid }"
       v-model.lazy="money"
       v-money3="moneyMask"
       type="text"
@@ -10,7 +10,7 @@
     />
     <span
       class="calculate-error"
-      :class="{ 'calculate-error_active': inputInvalid }"
+      :class="{ 'calculate-error_active': moneyInputInvalid }"
     >
       {{ errorText }}
     </span>
