@@ -21,7 +21,8 @@
 </template>
 
 <script>
-import MaskForMoneyInput from "@/mixins/maskForMoneyInput.mixin.js";
+import MoneyMask from "@/mixins/moneyMask.mixin.js";
+import Validators from "@/mixins/validators.mixin.js";
 
 export default {
   props: {
@@ -29,7 +30,7 @@ export default {
     placeholderText: String,
     errorText: String,
   },
-  mixins: [MaskForMoneyInput],
+  mixins: [MoneyMask, Validators],
   data: () => ({
     money: "0 ₽",
   }),
@@ -40,9 +41,6 @@ export default {
         .filter((elem) => !isNaN(Number(elem)))
         .join("");
     },
-    inputInvalid() {
-      return this.originalMoney < 1000;
-    },
   },
   methods: {
     calculate() {
@@ -52,27 +50,24 @@ export default {
         return;
       }
 
-      const moneyOfYear = Number(money) * 12 * 0.13;
-      const remains = 260000 % Math.floor(moneyOfYear);
-      const calculatedData = [];
-      let yearsQuantity = (260000 - remains) / moneyOfYear;
+      const moneyOfYear = Math.floor(Number(money) * 12 * 0.13);
+      const remains = 260000 % moneyOfYear;
+      const yearsQuantity = (260000 - remains) / moneyOfYear;
 
-      if (remains > 0) yearsQuantity++;
+      const calculatedData = [];
 
       for (let i = 0; i < yearsQuantity; ++i) {
-        const j = i + 1;
+        calculatedData.push({
+          money: moneyOfYear,
+          year: i + 1,
+        });
+      }
 
-        if (j >= yearsQuantity) {
-          calculatedData.push({
-            money: remains,
-            year: j,
-          });
-        } else {
-          calculatedData.push({
-            money: moneyOfYear,
-            year: j,
-          });
-        }
+      if (remains > 0) {
+        calculatedData.push({
+          money: remains,
+          year: calculatedData.length + 1,
+        });
       }
 
       this.$emit("calculate", calculatedData);

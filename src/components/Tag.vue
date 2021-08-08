@@ -26,8 +26,10 @@ export default {
 
   transition: 0.3s linear;
 
-  &:nth-child(odd) {
-    margin-left: 1em;
+  margin-left: 1em;
+
+  &:first-child {
+    margin-left: 0;
   }
 
   &:hover {

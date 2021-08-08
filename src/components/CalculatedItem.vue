@@ -2,13 +2,15 @@
   <div class="calculated-item">
     <InputCheck :id="id" class="calculated-item__checkbox" />
     <div class="calculated-item__info">
-      <span class="calculated-item__money">{{ money }} рублей </span>
+      <span class="calculated-item__money">{{ formatMoney }} рублей </span>
       <span>в {{ year }}-ый год</span>
     </div>
   </div>
 </template>
 
 <script>
+import MoneyMaskInline from "@/mixins/moneyMaskInline.mixin.js";
+
 import InputCheck from "@/components/InputCheck.vue";
 
 export default {
@@ -17,6 +19,7 @@ export default {
     money: Number,
     year: Number,
   },
+  mixins: [MoneyMaskInline],
   components: {
     InputCheck,
   },

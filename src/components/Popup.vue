@@ -13,7 +13,7 @@
       <div class="popup__calculation">
         <p class="popup__bold-text">Ваша зарплата в месяц</p>
         <CalculateForm
-          @calculate="calculate"
+          @calculate="changeCalculatedData"
           placeholder-text="Введите данные"
           error-text="Минимальная зарплата 1000 ₽"
         />
@@ -34,16 +34,18 @@
       </div>
       <div class="popup__sort">
         <p class="popup__sort-title">Что уменьшаем?</p>
-        <Tag
-          @click="changeSort('payment')"
-          :active="sortBy === 'payment'"
-          text="Платеж"
-        />
-        <Tag
-          @click="changeSort('term')"
-          :active="sortBy === 'term'"
-          text="Срок"
-        />
+        <div class="popup__sort-tags">
+          <Tag
+            @click="changeSort('payment')"
+            :active="sortBy === 'payment'"
+            text="Платеж"
+          />
+          <Tag
+            @click="changeSort('term')"
+            :active="sortBy === 'term'"
+            text="Срок"
+          />
+        </div>
       </div>
       <AddButton text="Добавить" />
     </div>
@@ -71,7 +73,7 @@ export default {
     calculatedData: [],
   }),
   methods: {
-    calculate(calculatedData) {
+    changeCalculatedData(calculatedData) {
       this.calculatedData = calculatedData;
     },
     changeSort(sortBy) {
@@ -103,7 +105,7 @@ export default {
 <style lang="scss" scoped>
 .popup-wrapper {
   width: 100%;
-  height: 100%;
+  min-height: 100%;
 
   position: absolute;
   top: 0;
@@ -123,7 +125,7 @@ export default {
 
 .popup {
   width: 100%;
-  max-width: 500px;
+  max-width: 550px;
 
   position: relative;
 
@@ -200,6 +202,10 @@ export default {
     margin-top: 30px;
   }
 
+  &__sort-tags {
+    display: flex;
+  }
+
   &__sort-title {
     margin-right: 3em;
     font-weight: 500;
@@ -217,12 +223,24 @@ export default {
 
 @media screen and (max-width: 500px) {
   .popup {
+    height: 100%;
+
     margin: 0;
 
     border-radius: 0;
 
     &__title {
       font-size: 1.5em;
+    }
+
+    &__sort {
+      margin-top: 24px;
+
+      display: block;
+    }
+
+    &__sort-tags {
+      margin-top: 30px;
     }
   }
 }
