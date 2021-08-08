@@ -1,10 +1,10 @@
 <template>
   <main>
+    <popup @popup-close="popup.active = !popup.active" :active="popup.active" />
     <FirstButton
       @click="popup.active = !popup.active"
       text="Досрочный платеж"
     />
-    <popup @popup-close="popup.active = !popup.active" :active="popup.active" />
   </main>
 </template>
 
@@ -15,7 +15,7 @@ import Popup from "@/components/Popup.vue";
 export default {
   data: () => ({
     popup: {
-      active: true,
+      active: false,
     },
   }),
   components: {
@@ -25,7 +25,7 @@ export default {
 };
 </script>
 
-<style scoped>
+<style lang="scss" scoped>
 main {
   width: 100%;
   min-height: 100vh;
@@ -33,5 +33,11 @@ main {
   display: flex;
   justify-content: center;
   align-items: center;
+}
+
+@media screen and (max-width: 500px) {
+  .button {
+    padding: 0.5em;
+  }
 }
 </style>
