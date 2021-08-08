@@ -12,32 +12,38 @@
       </p>
       <div class="popup__calculation">
         <p class="popup__bold-text">Ваша зарплата в месяц</p>
-        <Input
-          :invalid="input.invalid"
+        <CalculateForm
+          @calculate="calculate"
           placeholder-text="Введите данные"
-          error-text="Поле обязательно для заполнения"
+          error-text="Минимальная зарплата 1000 ₽"
         />
-        <p class="popup__text-btn">
-          <a href="#">Рассчитать</a>
-        </p>
-        <div class="popup__calculated">
+        <div v-if="calculatedData.length" class="popup__calculation-body">
           <p class="popup__bold-text">
             Итого можете внести в качестве досрочных:
           </p>
-          <CalculatedItem :key="1" :id="1" />
-          <CalculatedItem :key="2" :id="2" />
-          <CalculatedItem :key="3" :id="3" />
-          <CalculatedItem :key="4" :id="4" />
+          <div class="popup__calculation-list">
+            <CalculatedItem
+              v-for="(calculatedItem, idx) of sortedCalculatedData"
+              :key="idx"
+              :id="idx"
+              :money="calculatedItem.money"
+              :year="calculatedItem.year"
+            />
+          </div>
         </div>
       </div>
       <div class="popup__sort">
         <p class="popup__sort-title">Что уменьшаем?</p>
         <Tag
-          @click="sortBy = 'payment'"
+          @click="changeSort('payment')"
           :active="sortBy === 'payment'"
           text="Платеж"
         />
-        <Tag @click="sortBy = 'term'" :active="sortBy === 'term'" text="Срок" />
+        <Tag
+          @click="changeSort('term')"
+          :active="sortBy === 'term'"
+          text="Срок"
+        />
       </div>
       <AddButton text="Добавить" />
     </div>
@@ -45,7 +51,7 @@
 </template>
 
 <script>
-import Input from "@/components/Input.vue";
+import CalculateForm from "@/components/CalculateForm.vue";
 import Tag from "@/components/Tag.vue";
 import AddButton from "@/components/AddButton.vue";
 import CalculatedItem from "@/components/CalculatedItem.vue";
@@ -55,17 +61,42 @@ export default {
     active: Boolean,
   },
   components: {
-    Input,
+    CalculateForm,
     Tag,
     AddButton,
     CalculatedItem,
   },
   data: () => ({
-    input: {
-      invalid: false,
-    },
     sortBy: "payment", // or "term"
+    calculatedData: [],
   }),
+  methods: {
+    calculate(calculatedData) {
+      this.calculatedData = calculatedData;
+    },
+    changeSort(sortBy) {
+      this.sortBy = sortBy;
+    },
+    sortCalculatedData() {
+      switch (this.sortBy) {
+        case "payment":
+          this.calculatedData.sort((prev, next) => next.money - prev.money);
+          break;
+        case "term":
+          this.calculatedData.sort((prev, next) => next.year - prev.year);
+          break;
+        default:
+          return;
+      }
+    },
+  },
+  computed: {
+    sortedCalculatedData() {
+      this.sortCalculatedData();
+
+      return this.calculatedData;
+    },
+  },
 };
 </script>
 
@@ -153,29 +184,13 @@ export default {
     margin-top: 1.8em;
   }
 
-  &__calculated {
+  &__calculation-body {
     margin-top: 16px;
   }
 
-  &__text-btn {
-    margin-top: 8px;
-
-    a {
-      color: #EA0029;
-
-      font-weight: 500;
-      text-decoration: none;
-
-      transition: 0.1s linear;
-
-      &:hover {
-        color: #F53A31;
-      }
-
-      &:active {
-        color: #EA0029;
-      }
-    }
+  &__calculation-list {
+    max-height: 250px;
+    overflow-y: scroll;
   }
 
   &__sort {

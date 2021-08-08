@@ -1,8 +1,10 @@
 <template>
   <div class="calculated-item">
     <InputCheck :id="id" class="calculated-item__checkbox" />
-    <span class="calculated-item__money">78 000 рублей</span>
-    <span class="calculated-item__year"> в 1-ый год</span>
+    <div class="calculated-item__info">
+      <span class="calculated-item__money">{{ money }} рублей </span>
+      <span>в {{ year }}-ый год</span>
+    </div>
   </div>
 </template>
 
@@ -12,6 +14,8 @@ import InputCheck from "@/components/InputCheck.vue";
 export default {
   props: {
     id: Number,
+    money: Number,
+    year: Number,
   },
   components: {
     InputCheck,
