@@ -223,7 +223,7 @@ export default {
 
 @media screen and (max-width: 500px) {
   .popup {
-    height: 100%;
+    height: 100vmax;
 
     margin: 0;
 
