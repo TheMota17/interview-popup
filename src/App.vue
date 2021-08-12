@@ -37,7 +37,7 @@ main {
 
 @media screen and (max-width: 500px) {
   .button {
-    padding: 0.5em;
+    padding: 0.8em;
   }
 }
 </style>
