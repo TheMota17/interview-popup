@@ -12,7 +12,7 @@ export default {
 
 <style lang="scss" scoped>
 .button {
-  border: 1px solid #fff;
+  border: 1.5px solid #fff;
   outline: none;
   border-radius: 6px;
 
